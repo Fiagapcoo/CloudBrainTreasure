@@ -1,9 +1,10 @@
+const cryptography = require('./cryptography.js');
+
 const express = require('express');
 const app = express();
 const port = 8000;
 const cookieParser = require('cookie-parser');
 const mysql = require('mysql');
-
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -96,6 +97,43 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
+
+
+app.get('/2fa_autentication', (req, res) => {
+    var code = cryptography.generateRandomNumber();
+    console.log(code);
+    if (req.cookies.id) {
+        connection.query('SELECT * FROM users WHERE id = ?', [req.cookies.id], function (error, results, fields) {
+            var fa_enabled = results[0].fa_enabled;
+            if (results.length == 1) {
+                if (fa_enabled == 1) {
+                    res.redirect('/');
+                } else if (fa_enabled == 0) {
+                    res.cookie('code', code);
+                    res.render('2fa_autentication');
+                }
+            } else {
+                res.redirect('/');
+            }
+        });
+    }
+});
+
+app.post('/2fa_autentication', (req, res) => {
+    var auth_code = req.body.code;
+    var code = req.cookies.code;
+
+    if (auth_code == code) {
+        connection.query('UPDATE users SET fa_enabled = 1 WHERE id = ?', [req.cookies.id], function (error, results, fields) {
+            res.redirect('/');
+        });
+    } else {
+        res.send('Incorrect code!');
+        app.render('2fa_autentication');
+    }
+});
+
+
 app.listen(port, '0.0.0.0', () => {
-    console.log(`Example app listening at http://0.0.0.0:${port}`);
+    console.log(`Example app listening at http://192.168.1.76:${port}`);
 });
