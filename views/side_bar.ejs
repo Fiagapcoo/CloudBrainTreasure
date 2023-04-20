@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="CSS/sidebar_style.css" />
+  </head>
+  <body>
+    <!-- Define header content -->
+   
+
+    <!-- Define sidebar content -->
+    <div class="sidebar">
+      <a href="#">Procurar Recurso</a>
+      <a href="#">Ver todas as Disciplinas Disponiveis</a>
+      <a href="#">Adicionar Recurso</a>
+      <a href="#">Reportar Recurso</a>
+      <a href="/logout">Logout</a>
+    </div>
+
+    <!-- Define main content -->
+
+
+    <!-- Include Bootstrap JavaScript and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+      // Add active class to clicked link and remove from others
+      var links = document.querySelectorAll('.sidebar a');
+      links.forEach(function(link) {
+        link.addEventListener('click', function() {
+          links.forEach(function(link) {
+            link.classList.remove('active');
+          });
+          this.classList.add('active');
+        });
+      });
+    </script>
+  </body>
+</html>
