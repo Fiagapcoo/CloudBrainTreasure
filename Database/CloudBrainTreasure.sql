@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 20, 2023 at 05:12 PM
+-- Generation Time: Apr 21, 2023 at 06:04 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -32,6 +32,16 @@ CREATE TABLE `disciplinas` (
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `disciplinas`
+--
+
+INSERT INTO `disciplinas` (`id`, `name`) VALUES
+(2, 'Fisica e Quimica'),
+(1, 'Matemática'),
+(4, 'Musica'),
+(3, 'Português');
+
 -- --------------------------------------------------------
 
 --
@@ -42,14 +52,21 @@ CREATE TABLE `resources` (
   `id` int(11) NOT NULL,
   `discipline_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   `file_type` varchar(50) NOT NULL,
   `file_path` varchar(255) NOT NULL,
   `likes` int(11) NOT NULL DEFAULT 0,
   `reports` int(11) NOT NULL DEFAULT 0,
-  `comments` text DEFAULT NULL,
   `upload_date` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `resources`
+--
+
+INSERT INTO `resources` (`id`, `discipline_id`, `user_id`, `title`, `description`, `file_type`, `file_path`, `likes`, `reports`, `upload_date`) VALUES
+(10, 3, 1, 'Arduino', ' exericicos de arduino em Thinkpad', 'application/pdf', 'public/resources/file-1682090996905.pdf', 102, 18, '21-4-2023');
 
 -- --------------------------------------------------------
 
@@ -71,7 +88,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `fa_enabled`) VALUES
 (1, 'Filipe', '1234', 'filipeaguilar01@gmail.com', 1),
-(2, 'user', 'password', 'username@password.com', 0);
+(2, 'user', 'password', 'username@password.com', 1);
 
 --
 -- Indexes for dumped tables
@@ -81,13 +98,15 @@ INSERT INTO `users` (`id`, `username`, `password`, `email`, `fa_enabled`) VALUES
 -- Indexes for table `disciplinas`
 --
 ALTER TABLE `disciplinas`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `resources`
 --
 ALTER TABLE `resources`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `title` (`title`),
   ADD KEY `disciplina` (`discipline_id`),
   ADD KEY `user` (`user_id`);
 
@@ -95,7 +114,8 @@ ALTER TABLE `resources`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`,`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -105,13 +125,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `disciplinas`
 --
 ALTER TABLE `disciplinas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `resources`
 --
 ALTER TABLE `resources`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
