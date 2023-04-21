@@ -1,0 +1,65 @@
+<%- include('side_bar.ejs') %>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Sub-select example</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>Sub-select example</h1>
+        <form action="/report_recurso" method="post">
+		<div class="form-group">
+			<label for="category">Categoria:</label>
+			<select class="form-control" name="category" id="category">
+				<option value="" selected disabled>Selecione uma categoria</option>
+				<% categories.forEach(function(category) { %>
+					<option value="<%= category.id %>"><%= category.name %></option>
+				<% }); %>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="subcategory">Subcategoria:</label>
+			<select class="form-control" name = "subcategory" id="subcategory">
+				<option value="">Carregando...</option>
+			</select>
+            <p id="no-subcategories-message"></p>
+		</div>
+        
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+	</div>
+    <script>
+        $(document).ready(function() {
+            $('#category').change(function() {
+                var categoryId = $(this).val();
+                if (categoryId) {
+                    $.ajax({
+                        url: '/get_subcategories/' + categoryId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#subcategory').empty();
+                            $('#subcategory').append('<option value="">Selecione uma subcategoria</option>');
+                            if (data.length > 0) {
+                                $.each(data, function(index, value) {
+                                    $('#subcategory').append('<option value="' + value.id + '">' + value.title + '</option>');
+                                });
+                                $('#no-subcategories-message').text('');
+                            } else {
+                                $('#no-subcategories-message').text('Não há recursos disponíveis para essa categoria.');
+                            }
+                        }
+                    });
+                } else {
+                    $('#subcategory').empty();
+                    $('#subcategory').append('<option value="">Selecione uma subcategoria</option>');
+                    $('#no-subcategories-message').text('');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

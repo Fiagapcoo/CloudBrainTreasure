@@ -1,0 +1,45 @@
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .search-container input[type=text] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .search-container button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .search-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-gap: 20px;
+        }
+        .search-results table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .search-results th, td {
+            text-align: left;
+            padding: 8px;
+        }
+        .search-results tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .search-results th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .search-results a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }

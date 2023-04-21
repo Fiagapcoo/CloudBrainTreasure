@@ -3,7 +3,6 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="CSS/sidebar_style.css" />
   </head>
   <body>
     <!-- Define header content -->
@@ -11,10 +10,11 @@
 
     <!-- Define sidebar content -->
     <div class="sidebar">
-      <a href="#">Procurar Recurso</a>
-      <a href="#">Ver todas as Disciplinas Disponiveis</a>
+      <a href="/">Dashboard</a>
+      <a href="/search_resource">Procurar Recurso</a>
+      <a href="/ver_disciplinas">Ver todas as Disciplinas Disponiveis</a>
       <a href="/add_recurso">Adicionar Recurso</a>
-      <a href="#">Reportar Recurso</a>
+      <a href="report_recurso">Reportar Recurso</a>
       <a href="/logout">Logout</a>
     </div>
 
@@ -39,3 +39,49 @@
     </script>
   </body>
 </html>
+<style>
+
+  .sidebar {
+      background-color: #3f3e3e;
+      height: 100%;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 250px;
+      z-index: 1;
+    }
+  
+  
+  .sidebar a {
+    color: #fff;
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    border-bottom: 1px solid #555;
+  }
+  
+  .sidebar a:hover {
+    background-color: #555;
+  }
+  
+  .sidebar a.active {
+    background-color: #007bff;
+  }
+  
+  /* Define main content styles */
+  .content {
+    margin-left: 250px;
+    padding: 20px;
+  }
+  
+  /* Define header styles */
+  .header {
+    background-color: #007bff;
+    color: #fff;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+  }
+  </style>

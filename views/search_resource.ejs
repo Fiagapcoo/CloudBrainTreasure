@@ -1,0 +1,44 @@
+<%- include('side_bar.ejs') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="/CSS/search_resource_style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="content">
+        <!-- Define the search bar and search button -->
+        <div class="search-container">
+            <form method="POST" action="/search_resource">
+                <input type="text" placeholder="Search resources" name="search">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        
+        <% if (searchResults && searchResults.length > 0) { %>
+            <div class="search-results">
+                <table>
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Descrição</th>
+                        <th>Disciplina</th>
+                    </tr>
+                    <% searchResults.forEach((result) => { %>
+                        <tr>
+                            <td><a href="/view_resource/<%= result.id %>"><%= result.title %></a></td>
+                            <td><%= result.description %></td>
+                            <td><%= result.discipline_id %></td>
+                        </tr>
+                    <% }) %>
+                </table>
+            </div>
+        <% } else if(searchResults != "" ){ %>
+            <p>No search results found.</p>
+        <% } %>
+    </div>
+</body>
+</html>

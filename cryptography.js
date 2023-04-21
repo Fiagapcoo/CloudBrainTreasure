@@ -27,6 +27,4 @@ function encryptMessage(message) {
   }
 
 
-
-
 module.exports = { generateRandomNumber };

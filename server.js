@@ -166,6 +166,8 @@ app.get('/add_recurso', (req, res) => {
         });
 }
 });
+
+
 app.post('/add_recurso', upload.single('file'), (req, res) => {
     var titulo = req.body.title;
     var descricao = req.body.description;
@@ -193,9 +195,13 @@ app.post('/add_recurso', upload.single('file'), (req, res) => {
         }
     });
     }
+    connection.query("SELECT * FROM resources WHERE title = ?", [titulo], function (error, results, fields) {
+        if(error) throw error;
+        if(results.length == 1){
+            res.render('dashboard', {message: "Recurso não inserido, já existe um recurso com o mesmo titulo!"});
+        }});
     connection.query("INSERT INTO `resources` (`id`, `discipline_id`, `user_id`, `title`, `description`, `file_type`, `file_path`, `likes`, `reports`, `upload_date`) VALUES (NULL, ?, ?, ?, ?, ?, ?, '0', '0', ?);", [disciplina, id_user, titulo, descricao, file_type, file_path, data_str], function (error, results, fields) {
         if(error)throw error;
-
         res.render('dashboard', {message: "Recurso Inserido com sucesso!"});
     });
 
@@ -203,13 +209,105 @@ app.post('/add_recurso', upload.single('file'), (req, res) => {
     // Do something with the file
   
     
+});
+
+
+app.get('/search_resource', (req, res) => {
+    res.render('search_resource', { searchResults: "" });
   });
+  
+app.post('/search_resource', (req, res) => {
+    const search = req.body.search;
+    if (search === "") {
+      res.render('search_resource', { searchResults: [] });
+    } else {
+      connection.query("SELECT * FROM resources WHERE title LIKE ? OR description LIKE ? ORDER BY likes DESC", ['%' + search + '%', '%' + search + '%'], function (error, results, fields) {
+        if (error) {
+          throw error;
+        } else {
+          res.render('search_resource', { searchResults: results });
+        }
+      });
+    }
+});
+  
+
+app.get('/view_resource/:id', (req, res) => {
+    const resourceId = req.params.id;
+    connection.query("SELECT * FROM resources WHERE id = ?", [resourceId], function (error, results, fields) {
+        if (error) throw error;
+        const file_path = results[0].file_path;
+        const file_name = file_path.split("/").pop();
+        res.render('view_resource', {resource: results[0], file_name: file_name});
+    });
+});
   
 
 
 app.get('/logout', (req, res) => {
     res.clearCookie('id');
     res.redirect('/');
+});
+
+
+app.get('/report_recurso', (req, res) => {
+    connection.query('SELECT * from disciplinas', function(error, results, fields) {
+		if (error) throw error;
+		
+		res.render('report_recurso', {categories: results, subcategories: []});
+	});
+});
+
+
+app.get('/get_subcategories/:category_id', (req, res) => {
+    const categoryId = req.params.category_id;
+    connection.query("SELECT * FROM resources WHERE discipline_id = ?;", [categoryId], function (error, results, fields) {
+        if (error) throw error;
+        res.send(results);
+    });
+});
+
+
+app.post('/report_recurso', (req, res) => {
+ var recurso = req.body.subcategory;
+connection.query("UPDATE resources SET reports = reports + 1 WHERE id = ?", [recurso], function (error, results, fields) {
+    if(error) throw error;
+    res.render('dashboard', {message: "Recurso reportado com sucesso!"});
+});
+});
+
+
+app.get('/likes/:id', (req, res) => {
+    const resourceId = req.params.id;
+    connection.query("UPDATE resources SET likes = likes + 1 WHERE id = ?", [resourceId], function (error, results, fields) {
+        if (error) throw error;
+    });
+    connection.query("SELECT * FROM resources WHERE id = ?", [resourceId], function (error, results, fields) {
+        const file_path2 = results[0].file_path;
+        const file_name2 = file_path2.split("/").pop();
+        res.render('view_resource', {resource: results[0], file_name: file_name2});
+    });
+});
+
+
+
+app.get('/reports/:id', (req, res) => {
+    const resourceId = req.params.id;
+    connection.query("UPDATE resources SET reports = reports + 1 WHERE id = ?", [resourceId], function (error, results, fields) {
+        if (error) throw error;
+    });
+    connection.query("SELECT * FROM resources WHERE id = ?", [resourceId], function (error, results, fields) {
+        const file_path2 = results[0].file_path;
+        const file_name2 = file_path2.split("/").pop();
+        res.render('view_resource', {resource: results[0], file_name: file_name2});
+    });
+});
+
+app.get('/ver_disciplinas', (req, res) => {
+    connection.query("SELECT * FROM disciplinas", function (error, results, fields) {
+        if (error) throw error;
+        res.render('ver_disciplinas', {disciplinas: results});
+    });
 });
 
 

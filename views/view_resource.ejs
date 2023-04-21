@@ -1,0 +1,35 @@
+<%- include('side_bar.ejs') %>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Ver Recurso</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>Detalhes do Recurso</h1>
+		<div class="panel panel-default">
+			<div class="panel-heading"><%= resource.title %></div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6">
+						<p><strong>Description:</strong></p>
+						<p><%= resource.description %></p>
+						<p><strong>File:</strong> <a class="btn btn-primary" href="/resources/<%= file_name %>" download>Download Resource</a></p>
+					</div>
+					<div class="col-md-6">
+						<p><strong>Likes:</strong> <%= resource.likes %></p>
+						<p><strong>Reports:</strong> <%= resource.reports %></p>
+					</div>
+				</div>
+			</div>
+			<div class="panel-footer">
+				<a href="/likes/<%= resource.id %>" class="btn btn-default">Likes</a>
+				<a href="/reports/<%= resource.id %>" class="btn btn-danger">Report</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
