@@ -17,14 +17,13 @@ function encryptMessage(message) {
   }
 
   function decryptMessage(encryptedMessage) {
-    // Create a decipher using the secret key
     const decipher = crypto.createDecipher('aes-256-cbc', secretKey);
     
-    // Decrypt the message using the decipher and return the result as a UTF-8 string
+
     let decrypted = decipher.update(encryptedMessage, 'base64', 'utf8');
     decrypted += decipher.final('utf8');
     return decrypted;
   }
 
 
-module.exports = { generateRandomNumber };
+module.exports = { generateRandomNumber, encryptMessage, decryptMessage};

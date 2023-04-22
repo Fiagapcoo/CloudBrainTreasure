@@ -62,8 +62,9 @@ app.get('/login', (req, res) => {
 app.post('/login', (req, res) => {
     var username = req.body.username;
     var password = req.body.password;
+    var password_encrypted = cryptography.encryptMessage(password);
     if (username && password) {
-        connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
+        connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password_encrypted], function (error, results, fields) {
             if (results.length == 1) {
                 res.cookie('id', results[0].id);
                 res.redirect('/');
@@ -86,8 +87,10 @@ app.post('/register', (req, res) => {
     var username = req.body.username;
     var password = req.body.password;
     var email = req.body.email;
+    var password_encrypted = cryptography.encryptMessage(password);
+    var email_encrypted = cryptography.encryptMessage(email);
     if (username && password && email) {
-        connection.query("INSERT INTO `users` (`id`, `username`, `password`, `email`, `fa_enabled`) VALUES (NULL, ?, ?, ?, '0');", [username, password, email], function (error, results, fields) {
+        connection.query("INSERT INTO `users` (`id`, `username`, `password`, `email`, `fa_enabled`) VALUES (NULL, ?, ?, ?, '0');", [username, password_encrypted, email_encrypted], function (error, results, fields) {
             res.redirect('/login');
         });
     } else {
