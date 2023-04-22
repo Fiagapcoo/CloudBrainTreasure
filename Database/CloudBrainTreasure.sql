@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 21, 2023 at 06:04 PM
+-- Generation Time: Apr 22, 2023 at 04:23 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -40,7 +40,47 @@ INSERT INTO `disciplinas` (`id`, `name`) VALUES
 (2, 'Fisica e Quimica'),
 (1, 'Matemática'),
 (4, 'Musica'),
-(3, 'Português');
+(3, 'Português'),
+(5, 'Programação');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `likes`
+--
+
+CREATE TABLE `likes` (
+  `id` int(11) NOT NULL,
+  `resource_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `likes`
+--
+
+INSERT INTO `likes` (`id`, `resource_id`, `user_id`) VALUES
+(35, 11, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reports`
+--
+
+CREATE TABLE `reports` (
+  `id` int(11) NOT NULL,
+  `resource_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `reason` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reports`
+--
+
+INSERT INTO `reports` (`id`, `resource_id`, `user_id`, `reason`) VALUES
+(1, 11, 1, 'São do 2 grau');
 
 -- --------------------------------------------------------
 
@@ -56,8 +96,6 @@ CREATE TABLE `resources` (
   `description` text NOT NULL,
   `file_type` varchar(50) NOT NULL,
   `file_path` varchar(255) NOT NULL,
-  `likes` int(11) NOT NULL DEFAULT 0,
-  `reports` int(11) NOT NULL DEFAULT 0,
   `upload_date` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -65,8 +103,9 @@ CREATE TABLE `resources` (
 -- Dumping data for table `resources`
 --
 
-INSERT INTO `resources` (`id`, `discipline_id`, `user_id`, `title`, `description`, `file_type`, `file_path`, `likes`, `reports`, `upload_date`) VALUES
-(10, 3, 1, 'Arduino', ' exericicos de arduino em Thinkpad', 'application/pdf', 'public/resources/file-1682090996905.pdf', 102, 18, '21-4-2023');
+INSERT INTO `resources` (`id`, `discipline_id`, `user_id`, `title`, `description`, `file_type`, `file_path`, `upload_date`) VALUES
+(10, 5, 1, 'Arduino', 'Exercicios de arduino em thinkercad', 'image/png', 'public/resources/file-1682168800538.png', '21-4-2023'),
+(11, 1, 1, 'Sistemas de equações', ' Exercícos de sistemas de equações de 1 grau', 'application/pdf', 'public/resources/file-1682154205346.pdf', '22-4-2023');
 
 -- --------------------------------------------------------
 
@@ -102,6 +141,19 @@ ALTER TABLE `disciplinas`
   ADD UNIQUE KEY `name` (`name`);
 
 --
+-- Indexes for table `likes`
+--
+ALTER TABLE `likes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `recursos` (`resource_id`);
+
+--
+-- Indexes for table `reports`
+--
+ALTER TABLE `reports`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `resources`
 --
 ALTER TABLE `resources`
@@ -125,13 +177,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `disciplinas`
 --
 ALTER TABLE `disciplinas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `likes`
+--
+ALTER TABLE `likes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
+-- AUTO_INCREMENT for table `reports`
+--
+ALTER TABLE `reports`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `resources`
 --
 ALTER TABLE `resources`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -142,6 +206,12 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `likes`
+--
+ALTER TABLE `likes`
+  ADD CONSTRAINT `recursos` FOREIGN KEY (`resource_id`) REFERENCES `resources` (`id`);
 
 --
 -- Constraints for table `resources`
