@@ -1,0 +1,39 @@
+<%- include('side_bar.ejs') %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gerir Recursos</title>
+  </head>
+  <body>
+    <div class="content">
+    <h1>Gerir Recursos</h1>
+    <% if (recursos.length === 0) { %>
+        <p>Não adicionaste nenhum recurso a esta plataforma.</p>
+      <% } else { %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Descrição</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recursos.forEach(function(recurso) { %>
+              <tr>
+                <td><%= recurso.title %></td>
+                <td><%= recurso.description %></td>
+                <td>
+                  <a href="/remove_recurso/<%= recurso.id %>" class="btn btn-danger">Remover</a>
+                  <a href="/edit_recurso/<%= recurso.id %>" class="btn btn-primary">Editar</a>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } %>
+    </div>
+  </body>
+</html>

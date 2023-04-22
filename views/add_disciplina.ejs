@@ -1,0 +1,22 @@
+<%- include('side_bar.ejs') %>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Adicionar Disciplina</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>Adicionar Disciplina</h1>
+		<form method="POST" action="/add_disciplina">
+			<div class="form-group">
+				<label for="nome_disciplina">Nome da Disciplina:</label>
+				<input type="text" class="form-control" id="nome_disciplina" name="nome_disciplina" required>
+			</div>
+			<button type="submit" class="btn btn-primary">Adicionar</button>
+		</form>
+	</div>
+</body>
+</html>

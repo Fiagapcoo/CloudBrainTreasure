@@ -3,16 +3,16 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Sub-select example</title>
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<title>Reportar Recurso</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 	<div class="container">
-		<h1>Sub-select example</h1>
+		<h1>Reportar Recurso</h1>
         <form action="/report_recurso" method="post">
 		<div class="form-group">
-			<label for="category">Categoria:</label>
+			<label for="category">Disciplina do recurso:</label>
 			<select class="form-control" name="category" id="category">
 				<option value="" selected disabled>Selecione uma categoria</option>
 				<% categories.forEach(function(category) { %>
@@ -21,13 +21,16 @@
 			</select>
 		</div>
 		<div class="form-group">
-			<label for="subcategory">Subcategoria:</label>
-			<select class="form-control" name = "subcategory" id="subcategory">
+			<label for="subcategory">Recurso:</label>
+			<select class="form-control" name="subcategory" id="subcategory">
 				<option value="">Carregando...</option>
 			</select>
             <p id="no-subcategories-message"></p>
 		</div>
-        
+		<div class="form-group">
+			<label for="reason">Motivo do Report:</label>
+			<textarea class="form-control" name="reason" id="reason" rows="5"></textarea>
+		</div>
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 	</div>

@@ -1,0 +1,67 @@
+
+<%- include('side_bar.ejs') %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Recurso</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-10">
+          <div class="content">
+            <h2>Adicionar Recurso</h2>
+            <% if (error) { %>
+              <div class="alert alert-danger" role="alert">
+                <%= error %>
+              </div>
+            <% } %>
+            <div class="alert alert-primary" role="alert">
+                O que não quiser alterar deixe em branco, que não será alterado.
+              </div>
+
+            </div>
+            <form action="/edit_recurso/<%=resourceId%>" method="post" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="title">Titulo:</label>
+                <input type="text" class="form-control" id="title" name="title" />
+              </div>
+
+              <div class="form-group">
+                <label for="description">Descrição:</label>
+                <textarea class="form-control"  style="resize:none;" id="description" name="description"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="discipline">Disciplina:</label>
+                <select class="form-control" id="discipline" name="discipline">
+                  <option value="" selected disabled>Selecione uma</option>
+                  <% disciplinas.forEach(function(disciplina) { %>
+                  <option value="<%= disciplina.id %>"><%= disciplina.name %></option>
+                  <% }); %>
+                </select>
+              </div>
+
+              
+
+              <div class="form-group">
+                <label for="file">Recurso:</label>
+                <input type="file" class="form-control-file" accept=".zip,.png,.jpg,.jpeg,.pdf" id="file" name="file">
+              </div>
+              <button type="submit" class="btn btn-primary">Alterar Recurso</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  </body>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js
